@@ -1,0 +1,33 @@
+{
+  "name": "eov-handler-adapter",
+  "version": "0.0.1",
+  "description": "A handler adapter for express-openapi-validator",
+  "main": "dist/index.js",
+  "scripts": {
+    "generate": "openapi-generator-cli generate --global-property apis -i ./samples/openapi.yaml -o ./samples/generated -c ./samples/config.yaml -g typescript-node",
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "author": "Yuto Hasegawa <hsgw@qstol.info>",
+  "license": "MIT",
+  "dependencies": {
+    "camelcase": "^8.0.0",
+    "content-type": "^1.0.5"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@types/content-type": "^1.1.7",
+    "@types/cookie-parser": "^1.4.5",
+    "@types/js-yaml": "^4.0.8",
+    "@types/supertest": "^2.0.15",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-openapi-validator": "^5.0.6",
+    "js-yaml": "^4.1.0",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  }
+}

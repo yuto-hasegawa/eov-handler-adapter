@@ -1,0 +1,14 @@
+// @ts-nocheck
+
+/**
+ * Openapi Generated TypeScript Api Interfaces
+ */
+
+{{#operations}}
+interface {{classname}} { 
+{{#operation}}
+  {{operationId}}: (args: { {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}} }) => {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}, 
+{{/operation}}
+}
+
+{{/operations}}
