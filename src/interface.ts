@@ -31,11 +31,11 @@ export class HandlerResponse {
   }
 }
 
-export type Handler<I extends Interface<unknown, unknown>, E> = (
+export type Handler<I extends Interface<unknown, unknown>, E = unknown> = (
   args: I[0]
 ) => Promise<HandlerSuccessResponse<I[1]> | HandlerErrorResponse<E>>;
 
-export type Handlers<I, E> = {
+export type Handlers<I, E = unknown> = {
   [K in keyof I]: (
     args: I[K] extends Interface<infer O, unknown> ? O : never
   ) => Promise<

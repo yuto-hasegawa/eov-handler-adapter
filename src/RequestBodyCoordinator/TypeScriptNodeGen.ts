@@ -5,6 +5,7 @@ import {
   SpreadingRequestBodyWrapper,
 } from "./RequestBodyWrapper";
 
+// requires eovSupplement middleware to use $ref based parameter name
 export const typeScriptNodeGenCoordinator: RequestBodyCoordinator =
   new RequestBodyCoordinator()
     .set("multipart/form-data", new SpreadingRequestBodyWrapper())

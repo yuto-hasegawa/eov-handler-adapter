@@ -2,9 +2,14 @@ import { Controller, Handler, Interface } from "./interface";
 import { Request, Response } from "express";
 import { OpenApiRequest } from "./types";
 import { ArgsRetriever } from "./ArgsRetriever";
+import { RequestBodyCoordinator } from "./RequestBodyCoordinator/RequestBodyCoordinator";
 
 export class EOVHandlerAdapter {
-  constructor(private argsRetriever: ArgsRetriever) {}
+  private argsRetriever: ArgsRetriever;
+
+  constructor(requestBodyCoordinator: RequestBodyCoordinator) {
+    this.argsRetriever = new ArgsRetriever(requestBodyCoordinator);
+  }
 
   createController(
     handler: Handler<Interface<unknown, unknown>, unknown>
