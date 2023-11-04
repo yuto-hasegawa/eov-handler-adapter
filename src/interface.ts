@@ -1,15 +1,16 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export type Interface<Input, Output> = [Input, Output];
 
 export type Controller = (
   request: Request,
-  response: Response
+  response: Response,
+  next: NextFunction
 ) => Promise<void>;
 
-export interface HandlerSuccessResponse<T> {
+export interface HandlerSuccessResponse<R> {
   type: "success";
-  payload: T;
+  payload: R;
   httpCode: number;
 }
 export interface HandlerErrorResponse<E> {
@@ -17,12 +18,12 @@ export interface HandlerErrorResponse<E> {
   error: E;
   httpCode: number;
 }
-export type HandlerResponseType<T = unknown, E = unknown> =
-  | HandlerSuccessResponse<T>
+export type HandlerResponseType<R = unknown, E = unknown> =
+  | HandlerSuccessResponse<R>
   | HandlerErrorResponse<E>;
 
 export class HandlerResponse {
-  static resolve<T>(payload: T, httpCode = 200): HandlerSuccessResponse<T> {
+  static resolve<R>(payload: R, httpCode = 200): HandlerSuccessResponse<R> {
     return { type: "success", payload, httpCode };
   }
 
@@ -35,13 +36,9 @@ export type Handler<I extends Interface<unknown, unknown>, E = unknown> = (
   args: I[0]
 ) => Promise<HandlerSuccessResponse<I[1]> | HandlerErrorResponse<E>>;
 
-export type Handlers<I, E = unknown> = {
-  [K in keyof I]: (
-    args: I[K] extends Interface<infer O, unknown> ? O : never
-  ) => Promise<
-    | HandlerSuccessResponse<
-        I[K] extends Interface<unknown, infer O> ? O : never
-      >
-    | HandlerErrorResponse<E>
+export type Handlers<T, E = unknown> = {
+  [K in keyof T]: Handler<
+    T[K] extends Interface<infer I, infer O> ? Interface<I, O> : never,
+    E
   >;
 };

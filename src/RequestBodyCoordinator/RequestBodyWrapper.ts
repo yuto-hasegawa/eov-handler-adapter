@@ -1,4 +1,4 @@
-import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types";
+import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types.js";
 
 export type RequestBodyNamer = (openapi: OpenApiRequestMetadata) => string;
 

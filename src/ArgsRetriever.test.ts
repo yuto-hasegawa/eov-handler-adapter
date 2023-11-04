@@ -1,14 +1,20 @@
 import { describe, expect, it } from "vitest";
 import supertest from "supertest";
-import { ArgsRetriever } from "./ArgsRetriever";
-import { OpenApiRequest } from "./types";
-import * as path from "path";
-import { EOVRequestTester } from "./EOVRequestTester";
-import { typeScriptNodeGenCoordinator } from "./RequestBodyCoordinator/TypeScriptNodeGen";
+import { ArgsRetriever } from "./ArgsRetriever.js";
+import { OpenApiRequest } from "./types.js";
+import * as path from "node:path";
+import { EOVRequestTester } from "./EOVRequestTester.js";
+import { typeScriptNodeGenCoordinator } from "./RequestBodyCoordinator/TypeScriptNodeGen.js";
+import yaml from "js-yaml";
+import * as fs from "node:fs";
+import { OpenAPIV3 } from "express-openapi-validator/dist/framework/types.js";
 
 const SPEC_PATH = path.join(__dirname, "../samples/openapi.yaml");
+const SPEC = yaml.load(
+  fs.readFileSync(SPEC_PATH, "utf-8")
+) as OpenAPIV3.Document;
 
-const paramsRetriever = new ArgsRetriever(typeScriptNodeGenCoordinator);
+const paramsRetriever = new ArgsRetriever(SPEC, typeScriptNodeGenCoordinator);
 const tester = new EOVRequestTester(SPEC_PATH, async (req) => {
   const params = paramsRetriever.retrieve(req as OpenApiRequest);
   return params;

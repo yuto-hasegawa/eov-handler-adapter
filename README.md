@@ -11,7 +11,7 @@ npm install eov-handler-adapter
 # Usage
 
 Create a signature for each api.  
-This can be generated with openapi-generator. See [/samples/templates/apis.mustache](/samples/templates/apis.mustache)
+This may be generated with openapi-generator. See [/samples/templates/apis.mustache](/samples/templates/apis.mustache)
 
 ```typescript
 type HelloApi = (args: { name: string; lang: string }) => {
@@ -56,9 +56,8 @@ import {eovSupplement} from "eov-handler-adapter"
 
 const app = express();
 ...
-app.use(OpenApiValidator.middleware(...))
-
-// put this if you need $ref based parameter name resolution
-// this must be after OpenApiValidator.middleware
-app.use(eovSupplement(apiSpec))
+app.use(OpenApiValidator.middleware({
+  $refParser: { mode: "dereference" },
+  ...
+}))
 ```

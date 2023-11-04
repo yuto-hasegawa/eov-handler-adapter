@@ -1,18 +1,58 @@
 import camelcase from "camelcase";
-import { OpenApiRequest } from "./types";
-import { RequestBodyCoordinator } from "./RequestBodyCoordinator/RequestBodyCoordinator";
-import { contentTypeFrom, scanSchema } from "./utils";
+import { ContentType, HTTP_METHODS, OpenApiRequest } from "./types.js";
+import { RequestBodyCoordinator } from "./RequestBodyCoordinator/RequestBodyCoordinator.js";
+import {
+  contentTypeFrom,
+  httpMethodFrom,
+  pathKey,
+  scanSchema,
+} from "./utils.js";
+import { OpenAPIV3 } from "express-openapi-validator/dist/framework/types.js";
+
+interface Metadata {
+  originalRef: string;
+}
 
 export class ArgsRetriever {
-  constructor(private requestBodyCoordinator: RequestBodyCoordinator) {}
+  private basePath: string;
+  private metadataMap: Map<string, Metadata> = new Map();
+
+  constructor(
+    apiSpec: OpenAPIV3.Document,
+    private requestBodyCoordinator: RequestBodyCoordinator
+  ) {
+    if (apiSpec.servers && apiSpec.servers.length > 0) {
+      this.basePath = new URL(apiSpec.servers[0].url).pathname;
+    } else {
+      this.basePath = "";
+    }
+
+    for (const path in apiSpec.paths) {
+      for (const httpMethod of HTTP_METHODS) {
+        const operation = apiSpec.paths[path][httpMethod];
+        if (operation?.requestBody && "content" in operation.requestBody) {
+          for (const contentType in operation.requestBody.content) {
+            const content = operation.requestBody.content[contentType];
+            if (content.schema && "$ref" in content.schema) {
+              const key = pathKey(path, httpMethod, contentType as ContentType);
+              this.metadataMap.set(key, { originalRef: content.schema.$ref });
+            }
+          }
+        }
+      }
+    }
+  }
 
   retrieve(req: OpenApiRequest): Record<string, unknown> {
     const params: Record<string, unknown> = {};
+    const httpMethod = httpMethodFrom(req);
 
     const requestBodySchema = req.openapi.schema.requestBody;
     if (requestBodySchema) {
       if ("$ref" in requestBodySchema) {
-        throw new Error("$ref is not supposed to be in request");
+        throw new Error(
+          "$ref in request body is not supported. please make sure that $refParser is set to 'dereference' in express-openapi-validator"
+        );
       }
 
       const contentType = contentTypeFrom(req);
@@ -28,7 +68,19 @@ export class ArgsRetriever {
       }
 
       if ("$ref" in content.schema) {
-        throw new Error("$ref is not supposed to be in request metadata");
+        throw new Error(
+          "$ref in request body is not supported. please make sure that $refParser is set to 'dereference' in express-openapi-validator"
+        );
+      }
+
+      const key = pathKey(
+        req.openapi.openApiRoute.slice(this.basePath.length),
+        httpMethod,
+        contentType
+      );
+      const metadata = this.metadataMap.get(key);
+      if (metadata) {
+        content.originalRef = metadata.originalRef;
       }
 
       let fileValues: Record<
@@ -81,7 +133,9 @@ export class ArgsRetriever {
     if (paramsSchema) {
       for (const param of paramsSchema) {
         if ("$ref" in param) {
-          throw new Error("$ref in parameters is not supported");
+          throw new Error(
+            "$ref in parameter is not supported. please make sure that $refParser is set to 'dereference' in express-openapi-validator"
+          );
         }
 
         switch (param.in) {

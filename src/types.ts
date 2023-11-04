@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types";
+import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types.js";
 
 export type OpenApiRequest = Request & { openapi: OpenApiRequestMetadata };
 

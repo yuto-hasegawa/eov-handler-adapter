@@ -1,11 +1,11 @@
-import { OpenAPIV3 } from "express-openapi-validator/dist/framework/types";
+import { OpenAPIV3 } from "express-openapi-validator/dist/framework/types.js";
 import {
   CONTENT_TYPES,
   ContentType,
   HTTP_METHODS,
   HttpMethod,
   OpenApiRequest,
-} from "./types";
+} from "./types.js";
 import * as ct from "content-type";
 
 export const contentTypeFrom = (req: OpenApiRequest): ContentType => {

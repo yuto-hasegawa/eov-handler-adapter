@@ -1,9 +1,9 @@
 import camelcase from "camelcase";
-import { RequestBodyCoordinator } from "./RequestBodyCoordinator";
+import { RequestBodyCoordinator } from "./RequestBodyCoordinator.js";
 import {
   BundleRequestBodyWrapper,
   SpreadingRequestBodyWrapper,
-} from "./RequestBodyWrapper";
+} from "./RequestBodyWrapper.js";
 
 // requires eovSupplement middleware to use $ref based parameter name
 export const typeScriptNodeGenCoordinator: RequestBodyCoordinator =

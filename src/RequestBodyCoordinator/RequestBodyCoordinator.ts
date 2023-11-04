@@ -1,6 +1,6 @@
-import { ContentType } from "../types";
-import { RequestBodyWrapper } from "./RequestBodyWrapper";
-import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types";
+import { ContentType } from "../types.js";
+import { RequestBodyWrapper } from "./RequestBodyWrapper.js";
+import { OpenApiRequestMetadata } from "express-openapi-validator/dist/framework/types.js";
 
 export class RequestBodyCoordinator {
   private map: Map<ContentType, RequestBodyWrapper>;
