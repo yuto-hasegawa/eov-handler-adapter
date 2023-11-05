@@ -46,18 +46,3 @@ module.exports = {
   hello: EOVHandlerAdapter.createController(helloHandler),
 };
 ```
-
-Put a middleware. This is required by `typeScriptNodeGenCoordinator`
-
-```typescript
-import express from "express";
-import * as OpenApiValidator from 'express-openapi-validator';
-import {eovSupplement} from "eov-handler-adapter"
-
-const app = express();
-...
-app.use(OpenApiValidator.middleware({
-  $refParser: { mode: "dereference" },
-  ...
-}))
-```
