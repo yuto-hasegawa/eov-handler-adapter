@@ -2,6 +2,9 @@
 
 An adapter for [express-openapi-validator](https://github.com/cdimascio/express-openapi-validator) to auto-extract OpenAPI defined parameters, simplifying route handlers to (input) => output.
 
+> **Warning**  
+> `eov-handler-adapter@^0` will have breaking changes within minor version changes.
+
 # Install
 
 ```
@@ -40,7 +43,7 @@ import {
 
 // `typeScriptNodeGenCoordinator` matches parameter structure to `typescript-node` generator of openapi-generator
 // You can also create custom coordinators.
-const adapter = new EOVHandlerAdapter(typeScriptNodeGenCoordinator);
+const adapter = new EOVHandlerAdapter(typeScriptNodeGenCoordinator());
 
 module.exports = {
   hello: EOVHandlerAdapter.createController(helloHandler),

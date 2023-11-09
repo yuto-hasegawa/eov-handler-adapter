@@ -1,0 +1,18 @@
+// @ts-nocheck
+
+/**
+ * Openapi Generated TypeScript Api Interfaces
+ */
+ 
+{{#imports}}
+import { {{classname}} } from '{{filename}}.js';
+{{/imports}}
+
+{{#operations}}
+export interface {{classname}} { 
+{{#operation}}
+  {{operationId}}: [{ {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}} }, {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} ], 
+{{/operation}}
+}
+
+{{/operations}}

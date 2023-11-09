@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test
+paths:
+  /application_json:
+    post:
+      summary: request body with application/json
+      operationId: applicationJson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+                  format: int32
+              required:
+                - name
+                - age
+      responses:
+        "201":
+          description: Null response
+
+  /x_www_form_urlencoded:
+    post:
+      summary: request body with application/x-www-form-urlencoded
+      operationId: xWwwFormUrlencoded
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                links:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+      responses:
+        "201":
+          description: Null response
+
+  /multipart_form_data:
+    post:
+      summary: request body with multipart/form-data
+      operationId: multipartFormData
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                authority:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    url:
+                      type: string
+                  required:
+                    - name
+                    - url
+                photo:
+                  type: string
+                  format: binary
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        "201":
+          description: Null response
+
+  /octet_stream:
+    post:
+      summary: request body with application/octet-stream
+      operationId: octetStream
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: Null response
+
+  /text_plain:
+    post:
+      summary: request body with text/plain
+      operationId: textPlain
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        "201":
+          description: Null response
+
+  /mixed:
+    post:
+      summary: request body with multiple content types
+      operationId: mixed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                age:
+                  type: integer
+                  format: int32
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "201":
+          description: Null response

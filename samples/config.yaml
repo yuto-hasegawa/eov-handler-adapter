@@ -1,5 +1,0 @@
-templateDir: samples/templates
-files:
-  apis.mustache:
-    templateType: API
-    destinationFilename: .ts

@@ -1,18 +1,15 @@
 import { Controller, Handler, Interface } from "./interface.js";
 import { NextFunction, Request, Response } from "express";
 import { OpenApiRequest } from "./types.js";
-import { ArgsRetriever } from "./ArgsRetriever.js";
-import { RequestBodyCoordinator } from "./RequestBodyCoordinator/RequestBodyCoordinator.js";
+import { ParamsRetriever } from "./ParamsRetriever.js";
+import { ParamsConverter } from "./ParamsConverter/ParamsConverter.js";
 import { OpenAPIV3 } from "express-openapi-validator/dist/framework/types.js";
 
 export class EOVHandlerAdapter {
-  private argsRetriever: ArgsRetriever;
+  private paramsRetriever: ParamsRetriever;
 
-  constructor(
-    apiSpec: OpenAPIV3.Document,
-    requestBodyCoordinator: RequestBodyCoordinator
-  ) {
-    this.argsRetriever = new ArgsRetriever(apiSpec, requestBodyCoordinator);
+  constructor(apiSpec: OpenAPIV3.Document, paramsConverter: ParamsConverter) {
+    this.paramsRetriever = new ParamsRetriever(apiSpec, paramsConverter);
   }
 
   connect<I extends Interface<unknown, unknown>, E = unknown>(
@@ -20,7 +17,7 @@ export class EOVHandlerAdapter {
   ): Controller {
     return async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const input = this.argsRetriever.retrieve(request as OpenApiRequest);
+        const input = this.paramsRetriever.retrieve(request as OpenApiRequest);
         const output = await handler(input);
 
         response.status(output.httpCode);

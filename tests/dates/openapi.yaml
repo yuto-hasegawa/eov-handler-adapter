@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test
+paths:
+  /dates:
+    post:
+      summary: request body with dates field
+      operationId: dates
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                holiday:
+                  type: string
+                  format: date
+              required:
+                - createdAt
+                - holiday
+      responses:
+        "201":
+          description: Null response
