@@ -1,5 +1,5 @@
 export { EOVHandlerAdapter } from "./EOVHandlerAdapter.js";
-export { ArgsRetriever } from "./ArgsRetriever.js";
+export { ParamsRetriever } from "./ParamsRetriever.js";
 export {
   HandlerResponseType,
   HandlerSuccessResponse,
@@ -11,11 +11,11 @@ export {
   Handlers,
 } from "./interface.js";
 
-export { RequestBodyCoordinator } from "./RequestBodyCoordinator/RequestBodyCoordinator.js";
+export { ParamsConverter } from "./ParamsConverter/ParamsConverter.js";
 export {
   RequestBodyNamer,
   RequestBodyWrapper,
   SpreadingRequestBodyWrapper,
   BundleRequestBodyWrapper,
-} from "./RequestBodyCoordinator/RequestBodyWrapper.js";
-export { typeScriptNodeGenCoordinator } from "./RequestBodyCoordinator/TypeScriptNodeGen.js";
+} from "./ParamsConverter/RequestBodyWrapper.js";
+export { typeScriptNodeGenCoordinator } from "./ParamsConverter/TypeScriptNodeGen.js";

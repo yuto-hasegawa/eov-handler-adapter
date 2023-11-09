@@ -1,0 +1,205 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test
+paths:
+  /cases/{camelPath}/{PascalPath}/{snake_path}:
+    post:
+      summary: request body with cases field
+      operationId: cases
+      parameters:
+        - name: camelPath
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: PascalPath
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: snake_path
+          in: path
+          schema:
+            type: string
+          required: true
+
+        - name: camelQuery
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: PascalQuery
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: snake_query
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: kebab-query
+          in: query
+          schema:
+            type: string
+          required: true
+
+        - name: xCamelHeader
+          in: header
+          schema:
+            type: string
+          required: true
+        - name: XPascalHeader
+          in: header
+          schema:
+            type: string
+          required: true
+        - name: x_snake_header
+          in: header
+          schema:
+            type: string
+          required: true
+        - name: x-kebab-header
+          in: header
+          schema:
+            type: string
+          required: true
+
+        - name: camelCookie
+          in: cookie
+          schema:
+            type: string
+          required: true
+        - name: PascalCookie
+          in: cookie
+          schema:
+            type: string
+          required: true
+        - name: snake_cookie
+          in: cookie
+          schema:
+            type: string
+          required: true
+        - name: kebab-cookie
+          in: cookie
+          schema:
+            type: string
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                camelBody:
+                  type: string
+                PascalBody:
+                  type: string
+                snake_body:
+                  type: string
+              required:
+                - camelBody
+                - PascalBody
+                - snake_body
+      responses:
+        "201":
+          description: Null response
+
+  /cases/components/camelCase:
+    post:
+      operationId: casesComponentCamelCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/camelComponent"
+      responses:
+        "201":
+          description: Null response
+
+  /cases/components/PascalCase:
+    post:
+      operationId: casesComponentPascalCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PascalComponent"
+      responses:
+        "201":
+          description: Null response
+
+  /cases/components/snake_case:
+    post:
+      operationId: casesComponentSnakeCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/snake_component"
+      responses:
+        "201":
+          description: Null response
+
+  /cases/files/camelCase:
+    post:
+      operationId: casesFileCamelCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./camelExternal.yaml"
+      responses:
+        "201":
+          description: Null response
+
+  /cases/files/PascalCase:
+    post:
+      operationId: casesFilePascalCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./PascalExternal.yaml"
+      responses:
+        "201":
+          description: Null response
+
+  /cases/files/snake_case:
+    post:
+      operationId: casesFileSnakeCase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./snake_external.yaml"
+      responses:
+        "201":
+          description: Null response
+
+components:
+  schemas:
+    camelComponent:
+      type: object
+      properties:
+        id:
+          type: string
+    PascalComponent:
+      type: object
+      properties:
+        id:
+          type: string
+    snake_component:
+      type: object
+      properties:
+        id:
+          type: string

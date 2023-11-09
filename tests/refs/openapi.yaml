@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test
+paths:
+  /components:
+    post:
+      summary: request body with components ref
+      operationId: components
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SchemaComponent"
+      responses:
+        "201":
+          description: Null response
+
+  /file:
+    post:
+      summary: request body with file ref
+      operationId: file
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "./file_object.yaml"
+      responses:
+        "201":
+          description: Null response
+
+components:
+  schemas:
+    SchemaComponent:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64

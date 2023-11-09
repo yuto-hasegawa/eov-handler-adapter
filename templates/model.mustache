@@ -1,0 +1,55 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+
+{{#tsImports}}
+import { {{classname}} } from '{{filename}}.js';
+{{/tsImports}}
+
+{{#description}}
+/**
+* {{{.}}}
+*/
+{{/description}}
+{{^isEnum}}
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+    * {{{.}}}
+    */
+{{/description}}
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#defaultValue}} = {{#isEnum}}{{classname}}.{{/isEnum}}{{{.}}}{{/defaultValue}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+    export const {{classname}}s = {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{name}}: {{{value}}}{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    } as const;
+    export type {{classname}} = typeof {{classname}}s[keyof typeof {{classname}}s];
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/isEnum}}
+
+{{#isEnum}}
+export const {{classname}}s = {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}}: {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+} as const;
+export type {{classname}} = typeof {{classname}}s[keyof typeof {{classname}}s];
+{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,13 @@
+templateDir: templates
+globalProperties:
+  apis: ""
+  models: ""
+additionalProperties:
+  modelPropertyNaming: original
+files:
+  model.mustache:
+    templateType: Model
+    destinationFilename: .ts
+  apis.mustache:
+    templateType: API
+    destinationFilename: .ts
