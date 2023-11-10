@@ -151,7 +151,7 @@ export class ParamsRetriever {
             params[key] = req.headers[param.name.toLowerCase()];
             break;
           case "cookie":
-            params[key] = req.cookies[param.name];
+            params[key] = req.cookies?.[param.name];
             break;
         }
       }

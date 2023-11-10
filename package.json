@@ -1,6 +1,6 @@
 {
   "name": "eov-handler-adapter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A handler adapter for express-openapi-validator",
   "engines": {
     "node": ">=16"
