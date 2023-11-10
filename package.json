@@ -1,6 +1,6 @@
 {
   "name": "eov-handler-adapter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A handler adapter for express-openapi-validator",
   "engines": {
     "node": ">=16"
@@ -13,6 +13,7 @@
   "type": "module",
   "scripts": {
     "gen": "find tests -type f -name openapi.yaml -exec sh -c 'openapi-generator-cli generate -i {} -o $(dirname {}) -c $(dirname {})/config.yaml -g typescript-node' ;",
+    "prepare": "npm run build",
     "build": "tsc",
     "test": "vitest"
   },
